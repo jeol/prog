@@ -12,11 +12,10 @@ public class Sudoku {
 		this.originalGame = board;
 	}
 	
-	public int[] setZero(int[] array) {
+	public void setZero(int[] array) {
 		for(int i = 0; i < array.length;i++) {
 			array[i] = 0;
 		}
-		return array;
 	}
 	
 	public boolean arrayComplete(int[] valSeen) { 	// replaces rowsComplete(), columnsComplete(), and subgridsComplete(),
@@ -36,7 +35,7 @@ public class Sudoku {
         		if(this.game[rows][vals]==-1 || valSeen[this.game[rows][vals]]==1) return false;
         		else valSeen[this.game[rows][vals]] = 1;
         	}
-        	valSeen = this.setZero(valSeen);
+        	this.setZero(valSeen);
         }
         return true;
     }
@@ -46,7 +45,7 @@ public class Sudoku {
     			if(this.game[vals][rows]==-1 || valSeen[this.game[vals][rows]]==1) return false;
     			else valSeen[this.game[vals][rows]] = 1;
     		}
-        	valSeen = this.setZero(valSeen);
+        	this.setZero(valSeen);
     	}
         return true;
     }
@@ -61,7 +60,7 @@ public class Sudoku {
         				else valSeen[this.game[rowval][colval]] = 1;
         			}
         		}
-            	valSeen = this.setZero(valSeen);
+            	this.setZero(valSeen);
         	}
         }
         return true;
