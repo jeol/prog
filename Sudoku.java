@@ -5,28 +5,23 @@ public class Sudoku {
 	public static final int SIZE = 9;
 	public static final int SUBGRID = 3;
 	private int[][] game;
-	private final int[][] originalGame; // even though it's declared final, still changes?
+	private int[][] originalGame;
 	
-	public Sudoku(int[][] board) {
-		this.game = board;
-		this.originalGame = board;
+	public Sudoku(Test board) {
+		this.game = new int[9][9];
+		this.originalGame = new int[9][9];
+		for(int i = 0; i < SIZE; i++) {
+			for(int j = 0; j < SIZE; j++) {
+				this.game[i][j] = board.board[i][j];
+				this.originalGame[i][j] = board.board[i][j];
+			}
+		}
 	}
 	
 	public void setZero(int[] array) {
 		for(int i = 0; i < array.length;i++) {
 			array[i] = 0;
 		}
-	}
-	
-	public boolean arrayComplete(int[] valSeen) { 	// replaces rowsComplete(), columnsComplete(), and subgridsComplete(),
-		String vals = "123456789";					// because of the way it's written and how it's passed from (modded) isComplete().
-		for(int j = 0; j < SIZE; j++) {				// Could have just called this method from (modded) them, but it would be pointless.
-			if(valSeen[j]==-1) return false;
-			int place = vals.indexOf("" + valSeen[j]);
-			if(place > -1) vals = vals.substring(0,place) + vals.substring(place+1);
-			else return false;
-		}
-		return true;
 	}
 	
     public boolean rowsComplete(int[] valSeen) {     
@@ -74,30 +69,6 @@ public class Sudoku {
     	else return false;
     }
 	
-//	public boolean isComplete() {
-//		int[] valSeen = new int[SIZE];
-//		for(int i = 0; i < SIZE; i++) {
-//			if(!this.arrayComplete(game[i])) return false;
-//		}
-//		for(int i = 0; i < SIZE; i++) {
-//			for(int j = 0; j < SIZE; j++) {
-//				valSeen[j] = game[j][i];
-//			}
-//			if(!this.arrayComplete(valSeen)) return false;
-//		}
-//		for(int i = 0; i < SIZE; i++) {
-//			int value = 0;
-//			for(int control = 0; control < SUBGRID; control++) { // row
-//				for(int j = 0; j < SUBGRID; j++) { // col
-//					valSeen[value] = game[(i / SUBGRID)*SUBGRID + control][(i % SUBGRID) * SUBGRID + j];
-//					value++;
-//				}
-//			}
-//			if(!this.arrayComplete(valSeen)) return false;
-//		}
-//		return true;
-//	} // I like this way because it's much more clever (albeit more confusing), but graded work is what's up.
-	
 	public String makeHeader() {
 		String header = "-";
 		for(char i = 'a'; i < 'a' + SIZE; i++) {
@@ -134,7 +105,7 @@ public class Sudoku {
 		Scanner console = new Scanner(System.in);
 		System.out.print("Which puzzle would you like to do? (0 for random): ");
 		Test test = new Test(console.nextInt());
-		Sudoku puzzle = new Sudoku(test.board);
+		Sudoku puzzle = new Sudoku(test);
 		puzzle.print();
 		int moves = 0;
 		while(!puzzle.isComplete()) {
